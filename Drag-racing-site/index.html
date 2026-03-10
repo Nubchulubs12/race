@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Street & Strip Power Calculator</title>
+  <meta name="description" content="Estimate horsepower and torque from engine displacement, RPM, and supporting modifications." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <div class="brand">Street & Strip Power Calculator</div>
+      <nav class="nav-links">
+        <a href="#calculator">Calculator</a>
+        <a href="#about">About</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#disclaimer">Disclaimer</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Built for street and strip enthusiasts</p>
+          <h1>Estimate horsepower and torque from your setup</h1>
+          <p class="hero-text">
+            Enter your engine size, peak RPM, and supporting modifications to get a realistic estimate of
+            crank horsepower, wheel horsepower, and torque.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn primary" href="#calculator">Start Calculating</a>
+            <a class="btn secondary" href="#how-it-works">How It Works</a>
+          </div>
+
+          <div class="hero-points">
+            <span>Stock mode</span>
+            <span>Custom build mode</span>
+            <span>Wheel HP estimate</span>
+            <span>Torque at peak power RPM</span>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="mini-stat">
+            <div class="mini-label">Fast input</div>
+            <div class="mini-value">CID / Liters</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-label">Main output</div>
+            <div class="mini-value">HP + TQ</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-label">Use case</div>
+            <div class="mini-value">Street & strip builds</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section id="calculator" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Calculator</h2>
+          <p>
+            Stock mode uses only displacement and RPM. Custom mode unlocks airflow and valvetrain options
+            for a more detailed estimate.
+          </p>
+        </div>
+
+        <section class="card calc-shell">
+          
+          <div class="modeRow">
+            <button class="pill active" id="btnStock" type="button">stock</button>
+            <button class="pill" id="btnCustom" type="button">custom</button>
+          </div>
+
+          <div class="layout">
+            
+            <div class="col">
+              <div class="field">
+                <label for="dispVal">Engine displacement</label>
+                <div class="row">
+                  <input id="dispVal" type="number" min="0" step="0.1" placeholder="ex: 5.7 or 345" />
+                  <select id="dispUnit" class="unit">
+                    <option value="L" selected>Liters</option>
+                    <option value="CID">CID</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="peakRpm">RPM at peak power</label>
+                <input id="peakRpm" type="number" min="1000" step="50" placeholder="ex: 6000" />
+              </div>
+            </div>
+
+            
+            <div class="col dimmable" data-custom-only="true">
+              <h3 class="groupTitle">exhaust <span class="muted small">(pick up to 2)</span></h3>
+              <div class="checks" data-group="exhaust" data-max="2">
+                <label class="check"><input type="checkbox" value="shorty" /> shorty headers</label>
+                <label class="check"><input type="checkbox" value="longtube" /> long tube headers</label>
+                <label class="check"><input type="checkbox" value="catback" /> catback</label>
+              </div>
+
+              <h3 class="groupTitle mt">intake <span class="muted small">(pick 1)</span></h3>
+              <div class="checks" data-group="intake" data-max="1">
+                <label class="check"><input type="checkbox" value="cai" /> cold air intake</label>
+                <label class="check"><input type="checkbox" value="portedIntake" /> ported intake manifold</label>
+              </div>
+
+              <h3 class="groupTitle mt">Throttle body size <span class="muted small">(pick 1)</span></h3>
+              <div class="checks" data-group="tb" data-max="1">
+                <label class="check"><input type="checkbox" value="75" /> 75mm</label>
+                <label class="check"><input type="checkbox" value="80" /> 80mm</label>
+                <label class="check"><input type="checkbox" value="85" /> 85mm</label>
+                <label class="check"><input type="checkbox" value="90" /> 90mm</label>
+              </div>
+            </div>
+
+           
+            <div class="col dimmable" data-custom-only="true">
+              <h3 class="groupTitle">cam profile <span class="muted small">(pick 1)</span></h3>
+              <div class="checks" data-group="cam" data-max="1">
+                <label class="check"><input type="checkbox" value="stage1" /> stage 1 (mild/street)</label>
+                <label class="check"><input type="checkbox" value="stage2" /> stage 2 (street/strip)</label>
+                <label class="check"><input type="checkbox" value="stage3" /> stage 3 (performance/race)</label>
+                <label class="check"><input type="checkbox" value="stage4" /> stage 4+ (race/drag)</label>
+              </div>
+
+              <p class="muted small hint" id="camHelp"></p>
+
+              <h3 class="groupTitle mt">compression ratio <span class="muted small">(pick 1)</span></h3>
+              <div class="checks" data-group="cr" data-max="1">
+                <label class="check"><input type="checkbox" value="9.1" /> 9.1:1</label>
+                <label class="check"><input type="checkbox" value="10.0" /> 10:1</label>
+                <label class="check"><input type="checkbox" value="11.0" /> 11:1</label>
+                <label class="check"><input type="checkbox" value="12.0" /> 12:1</label>
+              </div>
+
+              <h3 class="groupTitle mt">heads <span class="muted small">(pick 1)</span></h3>
+              <div class="checks" data-group="heads" data-max="1">
+                <label class="check"><input type="checkbox" value="h1" /> stage 1 (ported heads)</label>
+                <label class="check"><input type="checkbox" value="h2" /> stage 2 (bigger valves/porting)</label>
+                <label class="check"><input type="checkbox" value="h3" /> stage 3 (full porting / high lift / bigger valves)</label>
+              </div>
+
+              <p class="muted small hint" id="headsHelp"></p>
+            </div>
+          </div>
+
+          <div class="lossRow">
+            <div class="muted small">10%</div>
+            <input id="lossSlider" type="range" min="10" max="35" step="0.5" value="17" />
+            <div class="muted small">35%</div>
+            <div class="lossText">
+              Drivetrain loss: <strong id="lossPctText">17.0%</strong>
+            </div>
+          </div>
+
+          <div class="btnCenter">
+            <button class="primary big" id="calcBtn" type="button">calculate</button>
+          </div>
+
+          <div class="warn" id="warn"></div>
+
+          
+          <div class="resultsPanel">
+            <div class="resultsPanelHead">
+              <h3>Your Estimated Results</h3>
+              <p>Based on your selected setup and drivetrain loss.</p>
+            </div>
+
+            <div class="outputsRow premiumOutputs">
+              <div class="outBox featured">
+                <div class="outLabel">crank horsepower</div>
+                <div class="outVal" id="crankHpOut">—</div>
+                <div class="outSub">Estimated flywheel horsepower</div>
+              </div>
+
+              <div class="outBox featured">
+                <div class="outLabel">wheel horsepower</div>
+                <div class="outVal" id="wheelHpOut">—</div>
+                <div class="outSub">After drivetrain loss</div>
+              </div>
+
+              <div class="outBox featured">
+                <div class="outLabel">torque</div>
+                <div class="outVal" id="torqueOut">—</div>
+                <div class="outSub">At the RPM entered above</div>
+              </div>
+            </div>
+          </div>
+
+          <p class="muted small note">
+            Torque shown is <strong>torque at the RPM you entered</strong>, not peak torque.
+          </p>
+        </section>
+      </div>
+    </section>
+
+    
+    <section id="about" class="section alt">
+      <div class="wrap narrow">
+        <div class="section-head">
+          <h2>About This Calculator</h2>
+          <p>
+            This tool is built for people who want a fast, realistic estimate of horsepower and torque
+            without needing a dyno sheet. It uses engine displacement, peak RPM, and optional supporting
+            modifications to estimate crank horsepower, wheel horsepower, and torque.
+          </p>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>Built for simplicity</h3>
+            <p>
+              Stock mode gives users a quick estimate with only engine size and RPM. Custom mode lets
+              users refine the estimate with airflow and valvetrain changes.
+            </p>
+          </div>
+
+          <div class="info-card">
+            <h3>Focused on realistic street builds</h3>
+            <p>
+              The assumptions behind the calculator are meant to reflect real combinations seen on
+              street and strip builds, not fantasy numbers.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section id="how-it-works" class="section">
+      <div class="wrap narrow">
+        <div class="section-head">
+          <h2>How It Works</h2>
+          <p>
+            The calculator starts with engine size and RPM, then adjusts the estimate using selected
+            modifications that improve airflow and engine efficiency.
+          </p>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <span class="step-num">1</span>
+            <div>
+              <h3>Engine size is converted into airflow potential</h3>
+              <p>Displacement in liters or cubic inches is used as the core size of the engine.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <span class="step-num">2</span>
+            <div>
+              <h3>RPM at peak power shifts the estimate</h3>
+              <p>Higher usable RPM increases the horsepower-per-cubic-inch estimate.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <span class="step-num">3</span>
+            <div>
+              <h3>Custom parts apply supporting gains</h3>
+              <p>Headers, intake parts, cam profile, compression, and heads all increase the output estimate.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <span class="step-num">4</span>
+            <div>
+              <h3>Drivetrain loss estimates wheel horsepower</h3>
+              <p>The drivetrain loss slider converts estimated crank horsepower into estimated wheel horsepower.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section id="disclaimer" class="section alt">
+      <div class="wrap narrow">
+        <div class="section-head">
+          <h2>Disclaimer</h2>
+          <p>
+            This calculator provides estimates only. Real-world horsepower and torque can vary based on
+            tuning quality, fuel, weather, dyno type, supporting modifications, drivetrain condition, and
+            many other factors.
+          </p>
+        </div>
+
+        <div class="disclaimer-box">
+          <p>
+            This tool is not a replacement for actual dyno testing or engine simulation software.
+            It is intended as a general-use estimate for enthusiasts comparing build combinations.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <div>© 2026 Street & Strip Power Calculator</div>
+      <div class="footer-links">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Use</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
